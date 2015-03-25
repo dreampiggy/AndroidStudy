@@ -4,5 +4,17 @@
     <string name="question_text">Are you stupid?</string>
     <string name="true_button">Yes!</string>
     <string name="false_button">No!</string>
+    <string name="correct_toast">Maybe you\'re right.</string>
+    <string name="incorrect_toast">Are you sure?</string>
+    <string name="last_button">Last</string>
+    <string name="next_button">Next</string>
     <string name="action_settings">Settings</string>
+    <string name="author_name">I\'m DreamPiggy</string>
+    <string name="begin_text">Hello!Welcome to this quiz!</string>
+    <string name="question_1">Am I stupid?</string>
+    <string name="question_2">Are you stupid?</string>
+    <string name="question_3">Do you think I\'m kidding you?</string>
+    <string name="question_4">So will you uninstall this app?</string>
+    <string name="question_5">OK...Am I BORING?&gt; &lt;</string>
+    <string name="final_text">Aha! You are an interesting guy.Let\' meet next time</string>
 </resources>
