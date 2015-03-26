@@ -1,7 +1,8 @@
 package geoquiz.android.bignerdranch.com.geoquiz;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,8 @@ public class QuizActivity extends ActionBarActivity {
     private Button mLastButton;
     private Button mNextButton;
     private TextView mQuestionTextView;
+    private boolean mIsCheater;
+    private static final String KEY_INDEX = "index";
 
     private TrueFalse[] mQuestionBank = new TrueFalse[]{
             new TrueFalse(R.string.question_1,false),
@@ -38,11 +41,16 @@ public class QuizActivity extends ActionBarActivity {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
         int messageResID = 0;
 
-        if(userPressedTrue == answerIsTrue){
-            messageResID = R.string.correct_toast;
+        if(mIsCheater){
+            messageResID = R.string.judgment_toast;
         }
         else{
-            messageResID = R.string.incorrect_toast;
+            if(userPressedTrue == answerIsTrue){
+                messageResID = R.string.correct_toast;
+            }
+            else{
+                messageResID = R.string.incorrect_toast;
+            }
         }
         Toast.makeText(this,messageResID,Toast.LENGTH_SHORT).show();
     }
@@ -62,7 +70,10 @@ public class QuizActivity extends ActionBarActivity {
         mAuthorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(QuizActivity.this,R.string.author_name,Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(QuizActivity.this,CheatActivity.class);
+                boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
+                i.putExtra(CheatActivity.EXTRA_ANSWER_IS_TRUE,answerIsTrue);
+                startActivityForResult(i,0);
             }
         });
         mTrueButton.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +95,7 @@ public class QuizActivity extends ActionBarActivity {
                     Toast.makeText(QuizActivity.this,R.string.begin_text,Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    mIsCheater = false;
                     mCurrentIndex = (mCurrentIndex - 1) % mQuestionBank.length;
                     updateQuestion();
                 }
@@ -96,6 +108,7 @@ public class QuizActivity extends ActionBarActivity {
                     Toast.makeText(QuizActivity.this,R.string.final_text,Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    mIsCheater = false;
                     mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                     updateQuestion();
                 }
@@ -114,9 +127,27 @@ public class QuizActivity extends ActionBarActivity {
             }
         });
 
+        if(savedInstanceState != null){
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX,0);
+        }
         updateQuestion();
     }
 
+    @Override
+    public void onActivityResult(int requestCode,int resultCode,Intent data){
+        if(data == null){
+            return;
+        }
+        else{
+            mIsCheater = data.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN,false);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt(KEY_INDEX,mCurrentIndex);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -17,4 +17,8 @@
     <string name="question_4">So will you uninstall this app?</string>
     <string name="question_5">OK...Am I BORING?&gt; &lt;</string>
     <string name="final_text">Aha! You are an interesting guy.Let\' meet next time</string>
+    <string name="warning_text">Oh,God!!You find a way to get the answer.\nLet\'s go on?</string>
+    <string name="show_answer_button">Sure</string>
+    <string name="judgment_toast">Fuck!Don\'t you know the importance of honesty?</string>
+    <string name="title_activity_cheat">CheatActivity</string>
 </resources>
